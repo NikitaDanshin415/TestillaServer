@@ -1,6 +1,7 @@
 ﻿using ClassLibrary2;
 using ClassLibrary2.Models;
 using ClassLibrary2.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -15,6 +16,7 @@ namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         public IRepository<User> context { get; private set; }
