@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WebApiData.Models;
 
 namespace ClassLibrary2
 {
@@ -10,6 +11,8 @@ namespace ClassLibrary2
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<TestCase> TestCases { get; set; }
+        public DbSet<TestStep> TestSteps { get; set; }
 
         public WebApiCoreContext(DbContextOptions<WebApiCoreContext> options) : base(options)
         {

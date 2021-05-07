@@ -15,13 +15,13 @@ namespace ClassLibrary2.Repository
             this.context = context;
         }
 
-        public IEnumerable<User> getAll()
+        public IEnumerable<User> GetAll()
         {
             var users = context.Users.ToList();
 
             foreach (var user in users)
             {
-                context.Entry(user).Reference(x => x.role).Load();
+                context.Entry(user).Reference(x => x.Role).Load();
             }
             return users;
         }
@@ -40,13 +40,13 @@ namespace ClassLibrary2.Repository
 
         public User FindById(int id)
         {
-            var user = context.Users.FirstOrDefault(x => x.id.Equals(id));
+            var user = context.Users.FirstOrDefault(x => x.Id.Equals(id));
             if (user == null)
             {
                 return null;
             }
 
-            context.Entry(user).Reference(x => x.role).Load();
+            context.Entry(user).Reference(x => x.Role).Load();
             return user;
         }
 

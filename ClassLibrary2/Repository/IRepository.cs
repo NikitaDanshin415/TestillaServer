@@ -6,7 +6,7 @@ namespace ClassLibrary2.Repository
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        IEnumerable<TEntity> getAll();
+        IEnumerable<TEntity> GetAll();
 
         void Add(TEntity entity);
         void Delete(TEntity entity);

@@ -49,7 +49,7 @@ namespace WebApi.Controllers
 
         private User AuthenticateUser(string email, string password)
         {
-            return context.Users.SingleOrDefault(u => u.email == email && u.password == password);
+            return context.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
         }
 
         private string GenerateJWT(User user)
@@ -57,14 +57,14 @@ namespace WebApi.Controllers
             var authParams = authOptions.Value;
             var securityKey = authParams.GetSymmetricSecurityKey();
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            context.Entry(user).Reference(x => x.role).Load();
+            context.Entry(user).Reference(x => x.Role).Load();
 
             var claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             };
-            claims.Add(new Claim("role", user.role.name));
+            claims.Add(new Claim("role", user.Role.Name));
 
             var token = new JwtSecurityToken(authParams.Issuer,
                 authParams.Audience,

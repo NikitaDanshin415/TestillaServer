@@ -16,7 +16,7 @@ namespace ClassLibrary2.Repository
             this.context = context;
         }
 
-        public IEnumerable<Role> getAll()
+        public IEnumerable<Role> GetAll()
         { 
             return context.Roles.ToList();
         }
@@ -35,7 +35,7 @@ namespace ClassLibrary2.Repository
 
         public Role FindById(int id)
         {
-            return context.Roles.FirstOrDefault(x => x.id.Equals(id));
+            return context.Roles.FirstOrDefault(x => x.Id.Equals(id));
         }
 
         public void Update(Role entity)

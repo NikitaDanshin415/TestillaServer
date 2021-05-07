@@ -1,6 +1,7 @@
 ﻿using ClassLibrary2;
 using ClassLibrary2.Models;
 using ClassLibrary2.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize (Roles = "admin")]
     public class RoleController : ControllerBase
     {
         public IRepository<Role> context { get; private set; }
@@ -26,7 +28,7 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public string Get()
         {
-            var result = context.getAll();
+            var result = context.GetAll();
             return JsonSerializer.Serialize(result);
         }
 

@@ -30,7 +30,7 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public string Get()
         {
-            var users = context.getAll();
+            var users = context.GetAll();
             return System.Text.Json.JsonSerializer.Serialize(users);
         }
 
@@ -61,7 +61,7 @@ namespace WebApplication1.Controllers
             [FromHeader] string headerName
         )
         {
-            return context.getAll();
+            return context.GetAll();
         }
 
         // PUT api/<UserController>/5
