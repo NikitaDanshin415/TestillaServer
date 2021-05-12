@@ -26,6 +26,7 @@ namespace WebApplication1.Controllers
             this.context = context;
         }
 
+
         // GET: api/<UserController>
         [HttpGet]
         public string Get()
@@ -34,12 +35,26 @@ namespace WebApplication1.Controllers
             return System.Text.Json.JsonSerializer.Serialize(users);
         }
 
+        // GET: api/<UserController>
+        [HttpGet("getUserInfo")]
+        public string GetTest()
+        {
+            var claims = User.Claims.ToList();
+
+            int id = int.Parse(claims[0].Value);
+            
+
+            var user = context.FindById(id);
+            return JsonConvert.SerializeObject(user, Newtonsoft.Json.Formatting.Indented);
+
+        }
 
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
+            
             var user = context.FindById(id);
             return JsonConvert.SerializeObject(user, Newtonsoft.Json.Formatting.Indented);
         }
@@ -49,19 +64,6 @@ namespace WebApplication1.Controllers
         public void Post([FromBody] User value)
         {
             context.Update(value);
-        }
-
-        // POST api/<UserController>
-        [HttpPost("mega-post/{routeName}")]
-        public IEnumerable<User> Post(
-            [FromQuery] string queryName,
-            [FromRoute] string routeName,
-            [FromForm] User user1,
-            [FromBody] User user2,
-            [FromHeader] string headerName
-        )
-        {
-            return context.GetAll();
         }
 
         // PUT api/<UserController>/5

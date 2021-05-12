@@ -61,8 +61,7 @@ namespace WebApi.Controllers
 
             var claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
             };
             claims.Add(new Claim("role", user.Role.Name));
 

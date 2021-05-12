@@ -17,6 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApiData.Models;
+using WebApiData.Repository;
 
 namespace WebApplication1
 {
@@ -32,6 +34,7 @@ namespace WebApplication1
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddControllers();
 
@@ -66,6 +69,8 @@ namespace WebApplication1
 
             services.AddScoped<IRepository<Role>, RoleRepository>();
             services.AddScoped<IRepository<User>, UserRepository>();
+            services.AddScoped<IRepository<TestCase>, TestCaseRepository>();
+            services.AddScoped<IRepository<TestStep>, TestStepRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -78,6 +83,12 @@ namespace WebApplication1
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(builder =>
+               builder.AllowAnyOrigin()
+                 .AllowAnyHeader()
+                 .AllowAnyMethod()
+             );
 
             app.UseAuthentication();
             app.UseAuthorization();

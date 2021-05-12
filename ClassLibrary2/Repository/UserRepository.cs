@@ -26,10 +26,11 @@ namespace ClassLibrary2.Repository
             return users;
         }
 
-        public void Add(User entity)
+        public int Add(User entity)
         {
             context.Users.Add(entity);
             context.SaveChanges();
+            return entity.Id;
         }
 
         public void Delete(User entity)

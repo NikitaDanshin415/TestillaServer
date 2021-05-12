@@ -1,4 +1,5 @@
 ﻿using ClassLibrary2;
+using ClassLibrary2.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,45 +16,71 @@ namespace WebApplication1.Controllers
     [ApiController]
     public class TestCaseController : ControllerBase
     {
-        private readonly WebApiCoreContext context;
+        public IRepository<TestCase> context { get; private set; }
 
-        public TestCaseController(WebApiCoreContext context)
+        public TestCaseController(IRepository<TestCase> context)
         {
             this.context = context;
         }
 
+
         // GET: api/<TestCaseController>
         [HttpGet]
-        public IEnumerable<TestCase> Get()
+        public ActionResult<IEnumerable<TestCase>> Get()
         {
-            List<TestCase> testCases = context.TestCases.ToList();
-            context.TestCases.Include(x => x.Steps).ToList();
-            return context.TestCases.ToList();
+            var testCaseList = context.GetAll();
+
+            if(testCaseList == null)
+            {
+                return NotFound(testCaseList);
+            }
+
+            return Ok(testCaseList);
         }
 
         // GET api/<TestCaseController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<TestCase> Get(int id)
         {
-            return "value";
+            TestCase testCase = context.FindById(id);
+
+            if(testCase == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(testCase);
         }
 
         // POST api/<TestCaseController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult Post([FromBody] TestCase value)
         {
+            value.CreateDate = DateTime.Now.Date;
+            value.UpdateDate = DateTime.Now.Date;
+            int id = context.Add(value);
+
+
+            var res = new { id };
+
+            return Ok(res);
         }
 
         // PUT api/<TestCaseController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] TestCase value)
         {
+            context.Update(value);
+            Ok();
         }
 
         // DELETE api/<TestCaseController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            var entity = context.FindById(id);
+            context.Delete(entity);
+            Ok();
         }
     }
 }

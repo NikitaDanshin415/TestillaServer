@@ -21,10 +21,11 @@ namespace ClassLibrary2.Repository
             return context.Roles.ToList();
         }
 
-        public void Add(Role entity)
+        public int Add(Role entity)
         {
             context.Roles.Add(entity);
             context.SaveChanges();
+            return entity.Id;
         }
 
         public void Delete(Role entity)
